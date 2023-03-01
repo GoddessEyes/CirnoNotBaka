@@ -19,10 +19,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Run image
+      - name: Run image & install dependencies
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: ${{ matrix.poetry-version }}
+        run: poetry install --only dev
 
       - name: Black
         run: poetry run black --check .
