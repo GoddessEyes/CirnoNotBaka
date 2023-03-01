@@ -24,16 +24,16 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Cache Poetry
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.cache/pypoetry
-          key: poetry-cache-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ env.POETRY_VERSION }}
+          key: poetry-cache-${{ runner.os }}-${{ matrix.python-version }}-${{ matrix.poetry-version }}
 
       - name: Cache Packages
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.local
-          key: poetry-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('.github/workflows/*.yml') }}
+          key: poetry-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}-${{ hashFiles('.github/workflows/*.yml') }}
 
       - name: Install deps
         run: poetry install --with dev
