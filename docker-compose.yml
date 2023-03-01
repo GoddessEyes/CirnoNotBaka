@@ -1,0 +1,12 @@
+services:
+  postgres:
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+      - ./data/postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped

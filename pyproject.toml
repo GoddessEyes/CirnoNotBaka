@@ -1,0 +1,127 @@
+[tool.poetry]
+name = "cirnonotbaka"
+version = "0.1.0"
+description = "Python bot for schedules and notifications"
+authors = ["goddesseyes <goddesseyes@protonmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^1.10.5"
+aiogram = {version = "^3.0.0b7", allow-prereleases = true}
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+mypy = "^1.0.1"
+isort = "^5.12.0"
+ruff = "^0.0.253"
+taskipy = "^1.10.3"
+
+
+[tool.taskipy.tasks]
+lint = "black -S -l 90 . && isort . && ruff check --fix . && mypy ."
+
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+allow_redefinition = false
+check_untyped_defs = true
+disallow_untyped_decorators = true
+disallow_any_explicit = false
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_calls = true
+ignore_errors = false
+ignore_missing_imports = true
+implicit_reexport = true
+local_partial_types = true
+strict_optional = true
+strict_equality = true
+no_implicit_optional = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unreachable = true
+warn_no_return = true
+follow_imports = "silent"
+pretty = true
+show_error_codes = true
+show_column_numbers = true
+
+
+[tool.pydantic-mypy]
+init_forbid_extra = false
+init_typed = false
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+
+[tool.ruff]
+select = [
+  "E", # pycodestyle errors
+  "W", # pycodestyle warnings
+  "F", # pyflakes
+  "B", # flake-bugbear
+  "Q", # flake8-quotes
+  "PT", # flake8-pytest-style
+  "RET", # flake8-return
+  "SIM", # flake8-simplify
+  "FBT", # flake8-boolean-trap
+  "C4", # flake8-comprehensions
+  "PIE", # flake8-pie
+  "TRY", # tryceratops
+  "RUF", # ruff
+  "PL", # pylint
+  "DTZ", # flake8-datetimez
+  "UP", # pyupgrade
+  "C90", # mccabe
+  "COM", # flake8-commas
+  "INP", # flake8-no-pep420
+  "TID", # flake8-tidy-imports
+  "PTH", # flake8-use-pathlib
+  "ERA", # eradicate
+]
+
+
+ignore = [
+  "E501", # Never enforce line length
+  "RET504", # Unnecessary variable assignment before `return` statement
+  "RUF001", # ruff unicode specific rules
+  "RUF002", # ruff unicode specific rules
+  "RUF003", # ruff unicode specific rules
+]
+
+
+unfixable = [
+  "B", # Avoid trying to fix flake8-bugbear violations.
+  "ERA", # Avoid deleting commented-out code
+]
+
+
+[tool.ruff.flake8-quotes]
+inline-quotes = 'single'
+
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+
+[tool.isort]
+profile = "black"
+line_length = 120
+lines_after_imports = 2
+ensure_newline_before_comments = true
+
+
+[tool.black]
+line-length = 120
+target-version = ["py311"]
+skip-string-normalization = true
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
