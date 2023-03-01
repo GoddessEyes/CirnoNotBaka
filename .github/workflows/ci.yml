@@ -25,13 +25,13 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
 
       - name: Black
-        run: black --check .
+        run: poetry run black --check .
 
       - name: Isort
-        run: isort --check-only .
+        run: poetry run isort --check-only .
 
       - name: Ruff
-        run: ruff check .
+        run: poetry run ruff check .
 
       - name: Mypy
-        run: mypy .
+        run: poetry run mypy .
