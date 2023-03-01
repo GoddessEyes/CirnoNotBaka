@@ -24,8 +24,8 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
 
-      - name: Install dev(lint)-deps
-        run: poetry install --only dev
+      - name: Install deps
+        run: poetry install --with dev
 
       - name: Black
         run: poetry run black --check .
