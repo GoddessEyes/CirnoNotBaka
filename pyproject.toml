@@ -21,7 +21,7 @@ taskipy = "^1.10.3"
 
 
 [tool.taskipy.tasks]
-lint = "black -S -l 90 . && isort . && ruff check --fix . && mypy ."
+lint = "black . && isort . && ruff check --fix . && mypy ."
 
 
 [tool.mypy]
