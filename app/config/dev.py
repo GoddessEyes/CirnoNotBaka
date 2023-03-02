@@ -9,4 +9,14 @@ class Settings(BaseSettings):
         env_file_encoding = 'utf-8'
 
 
+TORTOISE_ORM = {
+    'connections': {'default': 'postgres://postgres:postgres@localhost:5432/cirna'},
+    'apps': {
+        'cirna': {
+            'models': ['app.models', 'aerich.models'],
+            'default_connection': 'default',
+        },
+    },
+}
+
 config = Settings()

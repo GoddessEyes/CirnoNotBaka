@@ -8,8 +8,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-pydantic = "^1.10.5"
+pydantic = {extras = ["dotenv"], version = "^1.10.5"}
 aiogram = {version = "^3.0.0b7", allow-prereleases = true}
+tortoise-orm = {extras = ["asyncpg"], version = "^0.19.3"}
+aerich = "^0.7.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -86,6 +88,11 @@ select = [
 ]
 
 
+extend-exclude = [
+  "migrations/*",
+]
+
+
 ignore = [
   "E501", # Never enforce line length
   "RET504", # Unnecessary variable assignment before `return` statement
@@ -120,6 +127,12 @@ ensure_newline_before_comments = true
 line-length = 120
 target-version = ["py311"]
 skip-string-normalization = true
+
+
+[tool.aerich]
+tortoise_orm = "app.config.dev.TORTOISE_ORM"
+location = "./migrations"
+src_folder = "./."
 
 
 [build-system]

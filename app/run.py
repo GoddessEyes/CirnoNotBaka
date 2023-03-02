@@ -2,12 +2,24 @@ import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
+from tortoise import Tortoise
 
-from app.config.dev import config
+from app.config.dev import TORTOISE_ORM, config
 from app.handlers.start import start_router
 
 
+db = Tortoise()
 dispatcher = Dispatcher()
+
+
+@dispatcher.startup()
+async def startup() -> None:
+    await db.init(config=TORTOISE_ORM)
+
+
+@dispatcher.shutdown()
+async def shutdown() -> None:
+    await db.close_connections()
 
 
 async def main() -> None:
