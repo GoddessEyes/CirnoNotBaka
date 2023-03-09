@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from tortoise import Tortoise
 
 from app.config.dev import TORTOISE_ORM, config
+from app.handlers.register import register_router
 from app.handlers.start import start_router
 
 
@@ -23,7 +24,7 @@ async def shutdown() -> None:
 
 
 async def main() -> None:
-    dispatcher.include_routers(start_router)
+    dispatcher.include_routers(start_router, register_router)
     bot = Bot(config.bot_token, parse_mode='HTML')
     await dispatcher.start_polling(bot)
 
