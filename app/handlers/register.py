@@ -2,11 +2,21 @@ from aiogram import Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
-from app.filters.admin import AdminCommandFilter
+from app.filters.users import AdminCommandFilter
 from app.services.register import RegisterService
 
 
 register_router = Router()
+
+
+@register_router.message(Command(commands='register_me'))
+async def register_me(message: Message) -> Message:
+    if not message.from_user:
+        return await message.answer('Мне кажется с вами что-то не так...')
+    user, is_created = await RegisterService.create_user_from_tg_user(tg_user=message.from_user)
+    if is_created:
+        return await message.answer(f'Успех! Вы успешно зарегистрированы @{user.tg_username}')
+    return await message.answer('Вы уже зарегистрированы :)')
 
 
 @register_router.message(Command(commands='i_admin'))
@@ -23,7 +33,7 @@ async def create_first_admin(message: Message) -> Message:
 
 @register_router.message(Command(commands='add_admin'), AdminCommandFilter())
 async def set_superuser_to_registered_user(message: Message) -> Message:
-    if not message.from_user or not message.text:
+    if not message.text:
         return await message.answer('Проверьте, что вы не ошиблись в формате /add_admin @username')
 
     tg_username = RegisterService.try_parse_username_args(message.text)

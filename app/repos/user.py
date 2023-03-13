@@ -10,11 +10,10 @@ class UserRepo:
         return await User.filter(is_superuser=True).order_by('created').first()
 
     @staticmethod
-    async def create_admin(tg_user: TgUser) -> User:
-        return await User.create(
+    async def create_user(*, tg_user: TgUser, is_superuser: bool) -> tuple[User, bool]:
+        return await User.get_or_create(
             tg_id=tg_user.id,
-            tg_username=tg_user.username,
-            is_superuser=True,
+            defaults={'tg_username': tg_user.username, 'is_superuser': is_superuser},
         )
 
     @staticmethod

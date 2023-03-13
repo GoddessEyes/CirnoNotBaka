@@ -7,12 +7,18 @@ from app.types_alias import TgUser
 
 class RegisterService:
     @staticmethod
+    async def create_user_from_tg_user(
+        tg_user: TgUser,
+    ) -> tuple[User, bool]:
+        return await UserRepo.create_user(tg_user=tg_user, is_superuser=False)
+
+    @staticmethod
     async def get_or_create_first_admin(tg_user: TgUser) -> tuple[User, bool]:
         """-> User, created?"""
         admin_account = await UserRepo.get_first_admin_account()
         if admin_account:
             return admin_account, False
-        return await UserRepo.create_admin(tg_user=tg_user), True
+        return await UserRepo.create_user(tg_user=tg_user, is_superuser=True)
 
     @staticmethod
     async def try_set_superuser_by_tg_username(tg_username: str) -> User | None:
@@ -25,7 +31,7 @@ class RegisterService:
 
     @staticmethod
     def try_parse_username_args(text: str) -> str | None:
-        """/add_admin @username -> username"""
+        """@username -> username"""
         try:
             username = last(text.split())
             if username.startswith('@'):
